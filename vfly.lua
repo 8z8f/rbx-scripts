@@ -34,6 +34,12 @@ local dragStartUI = nil
 local arrowCooldown = 0
 local ARROW_COOLDOWN = 0.12
 
+local function getPlayerCar()
+    local playerName = LocalPlayer.Name
+    local carName = playerName .. "sCar"
+    return Workspace:FindFirstChild(carName)
+end
+
 local function getMousePos()
     local mouse = LocalPlayer:GetMouse()
     if mouse then
@@ -353,9 +359,9 @@ end
 local function toggle()
     enabled = not enabled
     if enabled then
-        local car = Workspace:FindFirstChild("pozereyesCar")
+        local car = getPlayerCar()
         if not car then
-            notify("Vehicle Fly", "Car not found!", 2)
+            notify("Vehicle Fly", "Car not found! (" .. LocalPlayer.Name .. "sCar)", 2)
             enabled = false
             return
         end
@@ -365,7 +371,7 @@ local function toggle()
             enabled = false
             return
         end
-        notify("Vehicle Fly", "ON", 2)
+        notify("Vehicle Fly", "ON - " .. car.Name, 2)
     else
         if seatPart then
             pcall(function()
